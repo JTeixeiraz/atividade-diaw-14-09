@@ -14,5 +14,10 @@ public class LoginController {
     @GetMapping("/login-form")
     public String postLogin(){
         return "home";
-    }    
+    }
+
+    @GetMapping("/register")
+    public String getRegister(){
+        return "register";
+    }
 }
