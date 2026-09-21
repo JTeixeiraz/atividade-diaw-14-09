@@ -7,8 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserService {
@@ -33,6 +36,15 @@ public class UserService {
     private final Map<String, String> userNames = new HashMap<>();
 
     /*
+     * Tokens de redefinição de senha (token -> e-mail e validade).
+     */
+    private static final long TOKEN_VALIDADE_SEGUNDOS = 30 * 60;
+
+    private record ResetToken(String email, Instant expiraEm) {}
+
+    private final Map<String, ResetToken> resetTokens = new ConcurrentHashMap<>();
+
+    /*
      * ============================================================
      * CONSTRUTOR
      * ============================================================
@@ -51,11 +63,11 @@ public class UserService {
          */
         userNames.put(
                 userConfig.getUserUsername(),
-                userConfig.getUserUsername());
+                userConfig.getUserName());
 
         userNames.put(
                 userConfig.getAdminUsername(),
-                userConfig.getAdminUsername());
+                userConfig.getAdminName());
     }
 
     /*
@@ -147,5 +159,65 @@ public class UserService {
          */
         userDetailsManager.updateUser(
                 usuarioAtualizado);
+    }
+
+    /*
+     * ============================================================
+     * TOKEN DE REDEFINIÇÃO DE SENHA
+     * ============================================================
+     */
+
+    /** Gera um token válido por 30 minutos para o e-mail informado. */
+    public String createResetToken(String email) {
+
+        String token = UUID.randomUUID().toString();
+
+        resetTokens.put(
+                token,
+                new ResetToken(
+                        email,
+                        Instant.now().plusSeconds(TOKEN_VALIDADE_SEGUNDOS)));
+
+        return token;
+    }
+
+    /** Retorna true se o token existe e ainda não expirou. */
+    public boolean isValidToken(String token) {
+
+        if (token == null) {
+            return false;
+        }
+
+        ResetToken resetToken = resetTokens.get(token);
+
+        if (resetToken == null) {
+            return false;
+        }
+
+        if (resetToken.expiraEm().isBefore(Instant.now())) {
+            resetTokens.remove(token);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Redefine a senha usando o token (que é invalidado após o uso).
+     * Retorna false se o token for inválido ou expirado.
+     */
+    public boolean resetPassword(String token, String novaSenha) {
+
+        if (!isValidToken(token)) {
+            return false;
+        }
+
+        ResetToken resetToken = resetTokens.remove(token);
+
+        updatePassword(
+                resetToken.email(),
+                novaSenha);
+
+        return true;
     }
 }

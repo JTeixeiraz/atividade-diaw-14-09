@@ -11,11 +11,25 @@ public class UserConfig {
     @Value("${app.user.password}")
     private String userPassword;
 
-    @Value("app.admin.username")
+    @Value("${app.admin.username}")
     private String adminUsername;
 
-    @Value("app.admin.password")
+    @Value("${app.admin.password}")
     private String adminPassword;
+
+    @Value("${app.user.name}")
+    private String userName;
+
+    @Value("${app.admin.name}")
+    private String adminName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
 
     public String getUserUsername() {
         return userUsername;

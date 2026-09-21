@@ -18,9 +18,6 @@
 
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/login.css}" />
-
-    <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -52,6 +49,16 @@
             </div>
 
             <!-- =================================================
+                       SENHA REDEFINIDA
+                       ================================================= -->
+
+            <div th:if="${param.senhaRedefinida}" class="login-message">
+                <strong> Senha redefinida com sucesso! </strong>
+
+                <span> Agora você já pode fazer login com a nova senha. </span>
+            </div>
+
+            <!-- =================================================
                        USUÁRIO OU SENHA INCORRETOS
                        ================================================= -->
 
@@ -64,10 +71,6 @@
             <!-- =================================================
                        ERRO CAPTCHA
                        ================================================= -->
-
-            <div th:if="${param.captcha}" class="login-error">
-                Por favor, confirme que você não é um robô.
-            </div>
 
             <!-- =================================================
                        USUÁRIO
@@ -99,13 +102,6 @@
                        GOOGLE reCAPTCHA
                        ================================================= -->
 
-            <div class="recaptcha-container">
-                <div
-                        class="g-recaptcha"
-                        th:attr="data-sitekey=${recaptchaSiteKey}"
-                ></div>
-            </div>
-
             <!-- =================================================
                        BOTÃO
                        ================================================= -->
@@ -123,11 +119,11 @@
 
                 <br />
 
-                <a href="/register"> Cadastre-se </a>
+                <a th:href="@{/register}"> Cadastre-se </a>
 
                 <span>|</span>
 
-                <a href="/recoverpassword"> Esqueceu sua senha? </a>
+                <a th:href="@{/recoverpassword}"> Esqueceu sua senha? </a>
             </p>
         </form>
     </div>

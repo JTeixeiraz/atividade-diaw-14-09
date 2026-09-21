@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -27,7 +26,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/login/**").permitAll() // Permitir acesso a GET na URL de login
                         .requestMatchers(HttpMethod.POST, "/login/**").permitAll() // Permitir acesso a POST na URL de login
-                        .requestMatchers(HttpMethod.GET, "/css/**").permitAll() // Permitir acesso a arquivos CSS
+                        .requestMatchers("/register", "/recoverpassword", "/resetpassword").permitAll() // Cadastro e recuperação de senha
+                        .requestMatchers(HttpMethod.GET, "/css/**", "/images/**").permitAll() // Permitir acesso a CSS e imagens
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Proteger URLs que começam com /admin para apenas ADMIN
                         .anyRequest().authenticated() // Proteger todas as outras URLs
                 )
@@ -56,7 +56,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.builder()
                 .username(userConfig.getUserUsername())
                 .password(passwordEncoder().encode(userConfig.getUserPassword())) // Codificar a senha
