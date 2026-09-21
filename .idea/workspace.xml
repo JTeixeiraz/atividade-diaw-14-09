@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b34acd3d-ee74-48c5-b04e-fc59e57ad8b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/diaw/config/UserConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/diaw/config/UserConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/diaw/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +16,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1789426878050</updated>
       <workItem from="1789426879747" duration="106000" />
-      <workItem from="1790028646201" duration="831000" />
+      <workItem from="1790028646201" duration="1184000" />
     </task>
     <servers />
   </component>
