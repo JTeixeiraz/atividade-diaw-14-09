@@ -11,7 +11,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/login-form")
+    @GetMapping("/home")
     public String postLogin(){
         return "home";
     }

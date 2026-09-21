@@ -11,7 +11,7 @@ public class UserConfig {
     @Value("${app.user.password}")
     private String userPassword;
 
-    @Value("${app.admin.username}")
+    @Value("")
     private String adminUsername;
 
     @Value("${app.admin.password}")
